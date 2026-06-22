@@ -1,0 +1,9 @@
+/build/
+/.gradle/
+.backups/
+*.bak
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf/
+*.iml
+.DS_Store
