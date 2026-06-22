@@ -537,10 +537,14 @@ class Zone
 		lastzx = zx;
 		lastzz = zz;
 
-		int yawsin = Perspective.SINE[cyaw];
-		int yawcos = Perspective.COSINE[cyaw];
-		int pitchsin = Perspective.SINE[cpitch];
-		int pitchcos = Perspective.COSINE[cpitch];
+		// Camera angles can momentarily exceed the 0-2047 table range (some
+		// Sailing camera states report a yaw past a full revolution), so wrap
+		// them modulo 2048 — otherwise the lookup runs off the 2048-entry
+		// SINE/COSINE tables and crashes the client (AIOOBE on the ocean).
+		int yawsin = Perspective.SINE[cyaw & 0x7FF];
+		int yawcos = Perspective.COSINE[cyaw & 0x7FF];
+		int pitchsin = Perspective.SINE[cpitch & 0x7FF];
+		int pitchcos = Perspective.COSINE[cpitch & 0x7FF];
 		for (int j = 0; j < alphaModels.size(); ++j) // NOPMD: ForLoopCanBeForeach
 		{
 			AlphaModel m = alphaModels.get(j);

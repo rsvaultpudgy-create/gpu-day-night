@@ -716,6 +716,8 @@ class SceneUploader
 		final int[] color2s = model.getFaceColors2();
 		final int[] color3s = model.getFaceColors3();
 
+		final byte[] transparencies = model.getFaceTransparencies();
+
 		final short[] faceTextures = model.getFaceTextures();
 
 		final byte[] bias = model.getFaceBias();
@@ -810,6 +812,7 @@ class SceneUploader
 			int sv2 = (int) (v2 * 256f);
 
 			int alphaBias = 0;
+			alphaBias |= transparencies != null ? (transparencies[face] & 0xff) << 24 : 0;
 			alphaBias |= bias != null ? (bias[face] & 0xff) << 16 : 0;
 			int texture = faceTextures != null ? faceTextures[face] + 1 : 0;
 
